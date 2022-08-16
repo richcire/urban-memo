@@ -1,4 +1,6 @@
+import { useDrop } from "react-dnd";
 import styled from "styled-components";
+import Label from "./Label";
 
 const BoardContainer = styled.ul`
   background-color: bisque;
@@ -6,16 +8,23 @@ const BoardContainer = styled.ul`
   min-height: 500px;
 `;
 
-const Label = styled.li``;
-
 interface IBoard {
   labelList: (string | null)[];
 }
 function Board({ labelList }: IBoard) {
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: "label",
+    drop: () => ({ name: "board" }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+
   return (
-    <BoardContainer>
+    <BoardContainer ref={drop}>
       {labelList.map((todo) => (
-        <Label>{todo}</Label>
+        <Label key={todo} text={todo}></Label>
       ))}
     </BoardContainer>
   );

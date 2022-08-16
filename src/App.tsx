@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
+import { DndProvider } from "react-dnd";
 import { useRecoilState } from "recoil";
 import styled, { createGlobalStyle } from "styled-components";
 import { recoilStorage } from "./atom";
 import Board from "./components/Board";
 import TodoForm from "./components/TodoForm";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -36,13 +38,14 @@ function App() {
   return (
     <>
       <GlobalStyle />
-
-      <TodoForm />
-      <BoardsContainer>
-        <Board labelList={storage.done} />
-        <Board labelList={storage.todo} />
-        <Board labelList={storage.willDo} />
-      </BoardsContainer>
+      <DndProvider backend={HTML5Backend}>
+        <TodoForm />
+        <BoardsContainer>
+          <Board labelList={storage.done} />
+          <Board labelList={storage.todo} />
+          <Board labelList={storage.willDo} />
+        </BoardsContainer>
+      </DndProvider>
     </>
   );
 }
