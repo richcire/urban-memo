@@ -23,8 +23,8 @@ function Board({ labelList }: IBoard) {
 
   return (
     <BoardContainer ref={drop}>
-      {labelList.map((todo) => (
-        <Label key={todo} text={todo}></Label>
+      {labelList.map((todo, index) => (
+        <Label key={todo} text={todo} index={index}></Label>
       ))}
     </BoardContainer>
   );
